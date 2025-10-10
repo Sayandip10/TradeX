@@ -1,5 +1,5 @@
 import React from "react";
-import brokerImage from "../../assets/images/largest-broker.svg";
+import brokerImage from "../../assets/images/largest_broker.jpg";
 
 function Awards() {
   return (

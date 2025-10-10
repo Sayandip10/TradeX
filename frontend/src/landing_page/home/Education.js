@@ -1,5 +1,5 @@
 import React from "react";
-import varsityImage from "../../assets/images/varsity-products.png"; // Import the image
+import varsityImage from "../../assets/images/versity.png"; // Import the image
 
 function Education() {
   return (

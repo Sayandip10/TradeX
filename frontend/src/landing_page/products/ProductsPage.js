@@ -1,63 +1,67 @@
 import React from "react";
-
 import Hero from "./Hero";
-import LeftSection from "./LeftSection";
+import LeftSection from "./Leftsection";
 import RightSection from "./RightSection";
 import Universe from "./Universe";
 
-import Navbar from "../Navbar";
-import Footer from "../Footer";
+// Import all the images needed for this page
+import kiteImage from "../../assets/images/products-kite.png";
+import consoleImage from "../../assets/images/products-console.png";
+import coinImage from "../../assets/images/products-coin.png";
+import kiteConnectImage from "../../assets/images/kite-api.png";
+import varsityImage from "../../assets/images/varsity-mobile.png";
 
-function PricingPage() {
+function ProductsPage() { // Renamed from PricingPage
   return (
     <>
       <Hero />
       <LeftSection
-        imageURL="media/images/kite.png"
+        imageURL={kiteImage}
         productName="Kite"
-        productDesription="Our ultra-fast flagship trading platform with streaming market data, advanced charts, an elegant UI, and more. Enjoy the Kite experience seamlessly on your Android and iOS devices."
-        tryDemo=""
-        learnMore=""
-        googlePlay=""
-        appStore=""
+        productDescription="Our ultra-fast flagship trading platform with streaming market data, advanced charts, an elegant UI, and more. Enjoy the Kite experience seamlessly on your Android and iOS devices."
+        tryDemo="#"
+        learnMore="/products/kite"
+        googlePlay="#"
+        appStore="#"
       />
       <RightSection
-        imageURL="media/images/console.png"
+        imageURL={consoleImage}
         productName="Console"
-        productDesription="The central dashboard for your Zerodha account. Gain insights into your trades and investments with in-depth reports and visualisations."
-        learnMore=""
+        productDescription="The central dashboard for your Zerodha account. Gain insights into your trades and investments with in-depth reports and visualisations."
+        learnMore="/products/console"
       />
       <LeftSection
-        imageURL="media/images/coin.png"
+        imageURL={coinImage}
         productName="Coin"
-        productDesription="Buy direct mutual funds online, commission-free, delivered directly to your Demat account. Enjoy the investment experience on your Android and iOS devices."
-        tryDemo=""
-        learnMore=""
-        googlePlay=""
-        appStore=""
+        productDescription="Buy direct mutual funds online, commission-free, delivered directly to your Demat account. Enjoy the investment experience on your Android and iOS devices."
+        tryDemo="#"
+        learnMore="/products/coin"
+        googlePlay="#"
+        appStore="#"
       />
       <RightSection
-        imageURL="media/images/kiteconnect.png"
+        imageURL={kiteConnectImage}
         productName="Kite Connect API"
-        productDesription="Build powerful trading platforms and experiences with our super simple HTTP/JSON APIs. If you are a startup, build your investment app and showcase it to our clientbase."
-        learnMore=""
+        productDescription="Build powerful trading platforms and experiences with our super simple HTTP/JSON APIs. If you are a startup, build your investment app and showcase it to our clientbase."
+        learnMore="/products/kite-connect"
       />
       <LeftSection
-        imageURL="media/images/varsity.png"
+        imageURL={varsityImage}
         productName="Varsity mobile"
-        productDesription="An easy to grasp, collection of stock market lessons with in-depth coverage and illustrations. Content is broken down into bite-size cards to help you learn on the go."
-        tryDemo=""
-        learnMore=""
-        googlePlay=""
-        appStore=""
+        productDescription="An easy to grasp, collection of stock market lessons with in-depth coverage and illustrations. Content is broken down into bite-size cards to help you learn on the go."
+        learnMore="/products/varsity-mobile"
+        googlePlay="#"
+        appStore="#"
       />
       <p className="text-center mt-5 mb-5">
-        Want to know more about our technology stack? Check out the Zerodha.tech
-        blog.
+        Want to know more about our technology stack? Check out the{" "}
+        <a href="https://zerodha.tech" target="_blank" rel="noopener noreferrer" className="text-primary">
+           Zerodha.tech blog.
+        </a>
       </p>
       <Universe />
     </>
   );
 }
 
-export default PricingPage;
+export default ProductsPage;
