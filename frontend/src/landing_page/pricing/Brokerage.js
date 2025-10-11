@@ -1,19 +1,20 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Brokerage() {
   return (
     <div className="container">
-      <div className="row p-5 mt-5 text-center border-top">
-        <div className="col-8 p-4">
-          <a href="" style={{ textDecoration: "none" }}>
+      <div className="row p-5 mt-5 justify-content-center text-center border-top">
+        <div className="col-lg-8">
+          <Link to="/brokerage-calculator" className="text-dark" style={{ textDecoration: "none" }}>
             <h3 className="fs-5">Brokerage calculator</h3>
-          </a>
+          </Link>
           <ul
             style={{ textAlign: "left", lineHeight: "2.5", fontSize: "12px" }}
-            className="text-mut"
+            className="text-muted mt-4" // Corrected from "text-mut"
           >
             <li>
-              Call & Trade and RMS auto-squareoff:Additional charges of ₹50 +
+              Call & Trade and RMS auto-squareoff: Additional charges of ₹50 +
               GST per order.
             </li>
             <li>Digital contract notes will be sent via e-mail.</li>
@@ -29,16 +30,12 @@ function Brokerage() {
               For NRI account (PIS), 0.5% or ₹200 per executed order for equity
               (whichever is lower).
             </li>
-            <li>
-              If the account is in debit balance, any order placed will be
-              charged ₹40 per executed order instead of ₹20 per executed order.
-            </li>
           </ul>
         </div>
-        <div className="col-4 p-4">
-          <a href="" style={{ textDecoration: "none" }}>
+        <div className="col-lg-4">
+           <Link to="/charges" className="text-dark" style={{ textDecoration: "none" }}>
             <h3 className="fs-5">List of charges</h3>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

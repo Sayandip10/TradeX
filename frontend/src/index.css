@@ -107,3 +107,31 @@ Footer Styles
   height: 20px;
   width: auto;
 }
+
+/*
+=================================
+Pricing Page Tab Styles
+=================================
+*/
+
+.charges-tabs .nav-link {
+  background: none;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-size: 1.2rem;
+  color: #666;
+  cursor: pointer;
+  margin: 0 1rem;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.charges-tabs .nav-link.active {
+  color: #387ed1; /* Zerodha blue */
+  border-bottom-color: #387ed1;
+  font-weight: 500;
+}
+
+.charges-tabs .nav-link:hover {
+  color: #387ed1;
+}
