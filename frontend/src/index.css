@@ -1,16 +1,53 @@
+/*
+=================================
+Global UI Design Styles
+=================================
+*/
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  /* Use the new 'Inter' font, with fallbacks */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Set the default text color to the brand's dark grey */
+  color: #424242;
+}
+
+/* General Link Styles */
+a {
+  color: #387ed1; /* Brand blue */
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: #1a5a99; /* A slightly darker blue for hover */
+}
+
+/* Custom Primary Button Style */
+.btn-primary {
+  background-color: #387ed1 !important;
+  border-color: #387ed1 !important;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #1a5a99 !important;
+  border-color: #1a5a99 !important;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*
+=================================
+Your Existing Component Styles
+=================================
+*/
 
 .nav-link{
   margin-left: 40px;
@@ -39,81 +76,19 @@ code {
   border: none;
 }
 
-/*
-=================================
-Footer Styles
-=================================
-*/
-
-.site-footer {
-  background-color: #fafafa; /* A light grey background */
-  border-top: 1px solid #e0e0e0; /* A subtle top border */
-  color: #757575; /* Default text color for the footer */
-  font-size: 0.85rem;
-}
-
-.site-footer-logo {
-  width: 120px; /* A fixed width for the logo */
-  margin-bottom: 1rem;
-}
-
-.footer-copyright {
-  font-size: 0.75rem;
-  color: #bdbdbd; /* Lighter color for the copyright text */
-}
-
-/* Style the column titles */
-.site-footer h4 {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #424242; /* Darker grey for headings */
-  margin-bottom: 1rem;
-}
-
-/* Remove default list styling */
-.footer-links {
-  list-style: none;
-  padding-left: 0;
-}
-
-/* Style the links in the footer */
-.site-footer a {
-  color: #757575;
-  text-decoration: none;
-  line-height: 2; /* Adds vertical space between links */
-  transition: color 0.2s ease-in-out; /* Smooth color transition on hover */
-}
-
-/* The hover effect */
-.site-footer a:hover {
-  color: #387ed1; /* Zerodha's brand blue */
-}
-
-.site-footer-disclaimer {
-  color: #9e9e9e; /* A lighter grey for the long disclaimer text */
-  font-size: 0.7rem;
-  line-height: 1.5;
-}
-
 /* Style for the active navigation link */
 .navbar-nav .nav-link.active {
-  color: #387ed1 !important; /* Zerodha's blue color */
+  color: #387ed1 !important;
   font-weight: 500;
 }
 
-/* Force the navbar logo to be visible */
 .navbar-brand img {
   display: inline-block !important;
-  height: 20px;
+  height: 18px;
   width: auto;
 }
 
-/*
-=================================
-Pricing Page Tab Styles
-=================================
-*/
-
+/* Pricing Page Tab Styles */
 .charges-tabs .nav-link {
   background: none;
   border: none;
@@ -127,7 +102,7 @@ Pricing Page Tab Styles
 }
 
 .charges-tabs .nav-link.active {
-  color: #387ed1; /* Zerodha blue */
+  color: #387ed1;
   border-bottom-color: #387ed1;
   font-weight: 500;
 }
@@ -135,3 +110,108 @@ Pricing Page Tab Styles
 .charges-tabs .nav-link:hover {
   color: #387ed1;
 }
+
+/*
+=================================
+Footer Styles
+=================================
+*/
+
+.site-footer {
+  background-color: #fafafa;
+  padding: 50px 0;
+  /* border-top: 1px solid #e0e0e0; <-- THIS LINE HAS BEEN REMOVED */
+  font-size: 0.85rem;
+  color: #757575;
+}
+
+.site-footer-logo {
+  width: 120px;
+  margin-bottom: 1rem;
+}
+
+.footer-copyright {
+  font-size: 0.75rem;
+  color: #bdbdbd;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.social-icons a {
+  color: #9b9b9b;
+  font-size: 1.2rem;
+  margin-right: 20px;
+  transition: color 0.2s ease-in-out;
+}
+
+.social-icons a:hover {
+  color: #387ed1;
+}
+
+.site-footer h4 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #424242;
+  margin-bottom: 1rem;
+}
+
+.footer-links {
+  list-style: none;
+  padding-left: 0;
+}
+
+.site-footer a {
+  color: #757575;
+  text-decoration: none;
+  line-height: 2;
+  transition: color 0.2s ease-in-out;
+}
+
+.site-footer .footer-links a:hover {
+  color: #387ed1;
+}
+
+.footer-disclaimer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  color: #aeaeae;
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+
+.footer-disclaimer a {
+  color: #387ed1;
+  font-weight: 500;
+}
+
+/*
+=================================
+Footer Bottom Nav Styles
+=================================
+*/
+.footer-bottom-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Allows links to wrap on smaller screens */
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.footer-bottom-nav a {
+  color: #aeaeae;
+  margin: 0 15px; /* Adds space between the links */
+  font-size: 0.8rem;
+  position: relative;
+}
+
+/* Add the vertical line separator */
+.footer-bottom-nav a:not(:last-child)::after {
+  content: "|";
+  color: #e0e0e0; /* Light grey color for the separator */
+  position: absolute;
+  right: -16px;
+}
+
