@@ -4,106 +4,128 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
+const auth = require("./middleware/auth");
 const { HoldingsModel } = require("./model/HoldingsModel");
 const { PositionsModel } = require("./model/PositionsModel");
 const { OrdersModel } = require("./model/OrdersModel");
+const { UserModel } = require("./model/UserModel");
 
-if (!process.env.MONGO_URL) {
-  console.error("FATAL ERROR: MONGO_URL is not defined in the .env file.");
+if (!process.env.MONGO_URL || !process.env.JWT_SECRET) {
+  console.error("FATAL ERROR: Environment variables are not defined.");
   process.exit(1);
 }
 
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
+const jwtSecret = process.env.JWT_SECRET;
 
 const app = express();
-app.use(cors());
+
+// CORS Configuration
+const allowedOrigins = ["http://localhost:3000", "http://localhost:3001"];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-// --- Seeding route for Holdings ---
-app.get("/addHoldings", async (req, res) => {
-  console.log("--- /addHoldings route hit! ---");
-  let tempHoldings = [
-    { name: "BHARTIARTL", qty: 2, avg: 538.05, price: 541.15, net: "+0.58%", day: "+2.99%" },
-    { name: "HDFCBANK", qty: 2, avg: 1383.4, price: 1522.35, net: "+10.04%", day: "+0.11%" },
-    { name: "HINDUNILVR", qty: 1, avg: 2335.85, price: 2417.4, net: "+3.49%", day: "+0.21%" },
-    { name: "INFY", qty: 1, avg: 1350.5, price: 1555.45, net: "+15.18%", day: "-1.60%", isLoss: true },
-    { name: "ITC", qty: 5, avg: 202.0, price: 207.9, net: "+2.92%", day: "+0.80%" },
-    // Add other holdings data here...
-  ];
 
+// --- AUTHENTICATION & PROFILE ROUTES ---
+
+app.post("/login", async (req, res) => {
+  console.log("--- /login route hit! ---");
   try {
-    await HoldingsModel.deleteMany({});
-    const insertedDocs = await HoldingsModel.insertMany(tempHoldings);
-    console.log(`SUCCESS: Inserted ${insertedDocs.length} holdings documents.`);
-    res.status(201).send(`Successfully added ${insertedDocs.length} holdings!`);
+    const { email, password } = req.body;
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid credentials." });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials." });
+    }
+    const payload = { user: { id: user.id } };
+    jwt.sign(payload, jwtSecret, { expiresIn: "1h" }, (err, token) => {
+      if (err) throw err;
+      console.log(`SUCCESS: User logged in: ${email}`);
+      res.json({ token });
+    });
   } catch (error) {
-    console.error("!!! ERROR during /addHoldings:", error);
-    res.status(500).send("Error adding holdings: " + error.message);
+    console.error("!!! ERROR during /login:", error);
+    res.status(500).json({ message: "Server error during login." });
   }
 });
 
-// --- THIS IS THE MISSING ROUTE ---
-app.get("/addPositions", async (req, res) => {
-  console.log("--- /addPositions route hit! ---");
-  let tempPositions = [
-    {
-      product: "CNC",
-      name: "EVEREADY",
-      qty: 2,
-      avg: 316.27,
-      price: 312.35,
-      net: "+0.58%",
-      day: "-1.24%",
-      isLoss: true,
-    },
-    {
-      product: "CNC",
-      name: "JUBLFOOD",
-      qty: 1,
-      avg: 3124.75,
-      price: 3082.65,
-      net: "+10.04%",
-      day: "-1.35%",
-      isLoss: true,
-    },
-  ];
-
+app.post("/register", async (req, res) => {
+  console.log("--- /register route hit! ---");
   try {
-    await PositionsModel.deleteMany({});
-    const insertedDocs = await PositionsModel.insertMany(tempPositions);
-    console.log(`SUCCESS: Inserted ${insertedDocs.length} positions documents.`);
-    res.status(201).send(`Successfully added ${insertedDocs.length} positions!`);
+    const { fullName, email, password } = req.body;
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User with this email already exists." });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const newUser = new UserModel({ fullName, email, password: hashedPassword });
+    await newUser.save();
+    console.log(`SUCCESS: New user registered: ${email}`);
+    const payload = { user: { id: newUser.id } };
+    jwt.sign(payload, jwtSecret, { expiresIn: "1h" }, (err, token) => {
+      if (err) throw err;
+      res.status(201).json({ token });
+    });
   } catch (error) {
-    console.error("!!! ERROR during /addPositions:", error);
-    res.status(500).send("Error adding positions: " + error.message);
+    console.error("!!! ERROR during /register:", error);
+    res.status(500).json({ message: "Server error during registration." });
+  }
+});
+
+app.get("/api/profile", auth, async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
 });
 
 
-// --- Data fetching routes ---
-app.get("/allHoldings", async (req, res) => {
-  try {
-    let allHoldings = await HoldingsModel.find({});
-    res.json(allHoldings);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+// --- DATA & SEEDING ROUTES ---
 
-app.get("/allPositions", async (req, res) => {
+app.get("/allHoldings", auth, async (req, res) => {
   try {
-    let allPositions = await PositionsModel.find({});
-    res.json(allPositions);
+    const holdings = await HoldingsModel.find({});
+    res.json(holdings);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-app.post("/newOrder", async (req, res) => {
+app.get("/allPositions", auth, async (req, res) => {
   try {
-    let newOrder = new OrdersModel({
+    const positions = await PositionsModel.find({});
+    res.json(positions);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.post("/newOrder", auth, async (req, res) => {
+  try {
+    const newOrder = new OrdersModel({
       name: req.body.name,
       qty: req.body.qty,
       price: req.body.price,

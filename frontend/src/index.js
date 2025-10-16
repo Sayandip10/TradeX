@@ -19,6 +19,9 @@ import NotFound from "./landing_page/NotFound";
 import Navbar from "./landing_page/Navbar";
 import Footer from "./landing_page/Footer";
 
+// --- ADD THIS IMPORT FOR THE NEW LOGIN PAGE ---
+import Login from "./landing_page/login/Login";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
@@ -26,6 +29,10 @@ root.render(
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/signup" element={<Signup />} />
+
+      {/* --- ADD THIS ROUTE FOR THE NEW LOGIN PAGE --- */}
+      <Route path="/login" element={<Login />} />
+      
       <Route path="/about" element={<AboutPage />} />
       <Route path="/product" element={<ProductPage />} />
       <Route path="/pricing" element={<PricingPage />} />
@@ -35,3 +42,4 @@ root.render(
     <Footer />
   </BrowserRouter>
 );
+
