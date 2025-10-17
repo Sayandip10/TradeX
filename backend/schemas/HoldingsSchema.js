@@ -7,7 +7,6 @@ const HoldingsSchema = new Schema({
   price: Number,
   net: String,
   day: String,
-  isLoss: Boolean, // <-- THE MISSING FIELD HAS BEEN ADDED
 });
 
 module.exports = { HoldingsSchema };
